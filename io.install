@@ -1,0 +1,15 @@
+<?php
+
+use Drupal\io\Schema\Version710\Schema as Schema710;
+
+/**
+ * Implements hook_schema().
+ *
+ * @return Schema710
+ */
+function io_schema()
+{
+    require_once __DIR__ . '/src/Schema/Version710/Schema.php';
+    $schema = new Schema710();
+    return $schema;
+}

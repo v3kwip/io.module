@@ -1,0 +1,151 @@
+<?php
+
+use Drupal\io\Entity\Log;
+use Drupal\io\Entity\LogController;
+use Drupal\io\Entity\Recipe;
+use Drupal\io\Entity\RecipeController;
+use Drupal\io\Entity\RecipeType;
+use Drupal\io\Entity\RecipeTypeController;
+use Drupal\io\IO;
+
+require __DIR__ . '/io.hooks.php';
+
+/**
+ * Define default wrapper class if it's not provided anywhere.
+ */
+if (!defined('IO_WRAPPER_CLASS')) {
+    define('IO_WRAPPER_CLASS', 'Drupal\\io\\IO');
+}
+
+/**
+ * Tasks:
+ *
+ * - Define recipe entities: recipe type, recipe, log.
+ * - Recipe type form.
+ * - Recipe form.
+ * - Recipe views.
+ *    - Logs listing inside recipe.
+ *    - VBO: Delete logs.
+ * - User's recipes.
+ * - Define permissions.
+ * - Define .travis.yml
+ * - Define queue job
+ * - Recipe execution
+ * - Write README.md
+ */
+
+/**
+ * Wrapper to helper classes, open way to override everything in this module.
+ *
+ * @return \Drupal\io\IO
+ */
+function io($class_name = IO_WRAPPER_CLASS)
+{
+    $io = &drupal_static(__FUNCTION__);
+    if (NULL === $io) {
+        $io = new $class_name;
+    }
+    return new $class_name;
+}
+
+/**
+ * Get pullers.
+ */
+function io_pullers()
+{
+    $pullers = [];
+
+    // …
+
+    return $pullers;
+}
+
+/**
+ * Get webhook handlers.
+ */
+function io_webhooks()
+{
+    $webhooks = [];
+
+    // …
+
+    return $webhooks;
+}
+
+/**
+ * Get pushers.
+ */
+function io_pushers()
+{
+    $pushers = [];
+
+    // …
+
+    return $pushers;
+}
+
+/**
+ * Load recipe type entity.
+ * @param string $name
+ * @return RecipeType
+ */
+function io_recipe_type_load($name)
+{
+    $types = entity_load_multiple_by_name('io_recipe_type', array($name));
+    return isset($types[$name]) ? $types[$name] : null;
+}
+
+/**
+ * Get all recipe types.
+ * @return RecipeType[]
+ */
+function io_recipe_types_get()
+{
+    return entity_load_multiple_by_name('io_recipe_type');
+}
+
+/**
+ * Get controller for recipe type entity.
+ * @return RecipeTypeController
+ */
+function io_recipe_type_controller()
+{
+    return entity_get_controller('io_recipe_type');
+}
+
+/**
+ * Load recipe entity.
+ * @return Recipe
+ */
+function io_recipe_load($id, $reset = FALSE)
+{
+    $entities = entity_load('io_recipe', [$id], [], $reset);
+    return reset($entities);
+}
+
+/**
+ * Get controller for recipe entity.
+ * @return RecipeController
+ */
+function io_recipe_controller()
+{
+    return entity_get_controller('io_recipe');
+}
+
+/**
+ * Load a log entity.
+ * @return Log
+ */
+function io_log_load($id)
+{
+    return entity_load_single('io_log', $id);
+}
+
+/**
+ * Get controller for log entity.
+ * @return LogController
+ */
+function io_log_controller()
+{
+    return entity_get_controller('io_log');
+}

@@ -1,0 +1,8 @@
+name = IO
+version = 7.x-5.x
+description = IO
+core = 7.x
+
+dependencies[] = entity
+dependencies[] = composer_manager
+dependencies[] = xautoload
